@@ -106,6 +106,8 @@ func (r *RDS) RestoreDatabaseFromSnapshot(db *crd.Database, password string) (st
 		}
 	} else if err != nil {
 		return "", errors.Wrap(err, fmt.Sprintf("wasn't able to describe the db instance with id %v", restoreSnapshotInput.DBInstanceIdentifier))
+	} else {
+		return "", errors.New(fmt.Sprintf("DB instance %v already exists. Will not restore", restoreSnapshotInput.DBInstanceIdentifier))
 	}
 	log.Printf("Waiting for db instance %v to become available\n", restoreSnapshotInput.DBInstanceIdentifier)
 	time.Sleep(5 * time.Second)
